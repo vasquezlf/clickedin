@@ -1,4 +1,5 @@
-// This file contains jwt strategy
+// This file contains jwt strategy.
+// The passport method returns the user object to req
 
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;

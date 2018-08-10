@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const path = require("path")
 
 const users = require("./routes/api/users");
 const profiles = require("./routes/api/profiles");
@@ -36,6 +37,16 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/profile", profiles);
 app.use("/api/posts", posts);
+
+// Serve static assets if in production
+if(process.env.NODE_ENV === production) {
+  // Set a static folder
+  app.user(express.static("client/build"));
+  // get anything that is not an api route
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 // Setup for Heroku port
 const port = process.env.PORT || 5000;

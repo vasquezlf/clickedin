@@ -11,11 +11,11 @@ module.exports = function validatePostInput(data) {
   data.text = !isEmpty(data.text) ? data.text : "";
 
   if(!Validator.isLength(data.text, { min: 10, max: 280 })) {
-    errors.password = "Post must be between 10 and 280 characters."
+    errors.text = "Text must be between 10 and 280 characters."
   }
 
   if(Validator.isEmpty(data.text)) {
-    errors.password = "Text field is required."
+    errors.text = "Text field is required."
   }
 
   return {

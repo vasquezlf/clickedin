@@ -19,7 +19,7 @@ const User = require("./../models/User");
    @desc    Tests profiles route
    @access  Public
 */
-router.get(`/test`, (req, res) => res.json({msg: `Profile Works`}));
+router.get(`/experience`, (req, res) => res.json({msg: `Experience Works`}));
 
 
 /* @route   GET api/profile
@@ -70,21 +70,21 @@ router.get("/all", (req, res) => {
    @desc    Get profile by handle
    @access  Public
 */
-router.get("/handle/:handle", (req, res) => {
+router.get('/handle/:handle', (req, res) => {
   const errors = {};
 
   Profile.findOne({ handle: req.params.handle })
-    .populate("user", ["name", "avatar"])
+    .populate('user', ['name', 'avatar'])
     .then(profile => {
-      if(!profile) {
-        errors.noprofile = "There is no profile for this user.";
+      if (!profile) {
+        errors.noprofile = 'There is no profile for this user';
         res.status(404).json(errors);
       }
 
       res.json(profile);
     })
-    .catch(err => res.status(404).json(err))
-})
+    .catch(err => res.status(404).json(err));
+});
 
 /* @route   GET api/profile/user/:user_id
    @desc    Get profile by user ID
@@ -109,7 +109,6 @@ router.get("/user/:user_id", (req, res) => {
 /* @route   POST api/profile
    @desc    Create or edit user profile
    @access  Private
-
    1. Collect req.body in profileFields object
    2. Search for profile using logged in user id
      - IF user has profile, update fields
@@ -190,7 +189,7 @@ router.post("/experience", passport.authenticate("jwt", { session: false }),
   }
 
   // Find by current user. Req.user.id comes from the token
-  Profile.findOne({ user: req.user.id })
+  Profile.findOneAndUpdate({ user: req.user.id })
   .then(profile => {
     const newExp = {
       title: req.body.title,
@@ -227,7 +226,7 @@ router.post("/education", passport.authenticate("jwt", { session: false }),
   }
 
   // Find by current user. Req.user.id comes from the token
-  Profile.findOne({ user: req.user.id })
+  Profile.findOneAndUpdate({ user: req.user.id })
   .then(profile => {
     const newEdu = {
       school: req.body.school,
